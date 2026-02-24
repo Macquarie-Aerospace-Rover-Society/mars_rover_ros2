@@ -3,6 +3,7 @@
 
 
 This is the main repo for controlling the MARS Society Rover
+<img width="640" height="498" alt="image" src="https://github.com/user-attachments/assets/45e4c0a2-aca2-4b7b-8e4c-39f62734ea14" />
 
 
 
@@ -30,10 +31,8 @@ ros2 launch mars_rover view_rover.launch.py
 ```bash
 ros2 launch mars_rover rover.launch.py
 ```
-> ![Note] 
-> run on the onboard Jetson
-
+- run on the onboard jetson
 ```bash
-ros2 launch mars_rover controller.launch.py joy_con:={xbox/ps3/joy-con}
+ros2 launch mars_rover controller.launch.py #joy_con:={xbox/ps3/joy-con}
 ```
 - This runs on the base station to translate controller input into `Twist` msgs for the rover to interpret.
