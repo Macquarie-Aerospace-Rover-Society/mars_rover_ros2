@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>mars_rover_ros2</name>
+  <name>mars_rover</name>
   <version>0.0.1</version>
   <description>ROS2 nodes for the mars society rover</description>
   <maintainer email="maintainer@example.com">Maintainer</maintainer>
@@ -12,9 +12,21 @@
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>opencv</depend>
+  <depend>cv_bridge</depend>
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>teleop_twist_joy</depend>
+  <depend>twist_stamper</depend>
+  <exec_depend>diff_drive_controller</exec_depend>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>ament_cmake_ros</test_depend>
+  <test_depend>launch_testing_ament_cmake</test_depend>
+  <test_depend>launch_testing</test_depend>
+  <test_depend>launch</test_depend>
+  <test_depend>liburdfdom-tools</test_depend>
+  <test_depend>xacro</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

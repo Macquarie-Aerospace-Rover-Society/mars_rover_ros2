@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- Basic differential drive mobile base -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover">
+  <xacro:arg name="prefix" default="" />
+  <xacro:arg name="use_mock_hardware" default="false" />
+
+  <xacro:include filename="$(find mars_rover)/description/urdf/rover_description.urdf.xacro" />
+
+
+  <xacro:include filename="$(find mars_rover)/description/urdf/materials.xacro" />
+  <!-- Import rover ros2_control description -->
+  <xacro:include filename="$(find mars_rover)/description/ros2_control/rover.ros2_control.xacro" />
+
+  <xacro:rover prefix="$(arg prefix)" />
+
+  <xacro:rover_ros2_control name="Rover" prefix="$(arg prefix)" use_mock_hardware="$(arg use_mock_hardware)"/>
+
+</robot>

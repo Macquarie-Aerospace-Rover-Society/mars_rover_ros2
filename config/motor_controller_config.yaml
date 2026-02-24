@@ -1,0 +1,6 @@
+
+controller_manager: #? this will probably need to be changed as the code runs as a node in the controller manager, but for now it is here for ease of testing
+  ros__parameters:
+    motor_controller_serial_port: "/dev/ttyUSB0"
+    motor_controller_baud_rate: 115200
+
