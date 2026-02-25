@@ -36,7 +36,7 @@ namespace mars_rover
 class RoverSystemHardware : public hardware_interface::SystemInterface
 {
 public:
-  RCLCPP_SHARED_PTR_DEFINITIONS(RoverSystemHardware);
+  RCLCPP_SHARED_PTR_DEFINITIONS(RoverSystemHardware)
 
   hardware_interface::CallbackReturn on_init(
     const hardware_interface::HardwareInfo & info) override;
