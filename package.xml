@@ -18,6 +18,9 @@
   <depend>pluginlib</depend>
   <depend>teleop_twist_joy</depend>
   <depend>twist_stamper</depend>
+  <depend>navigation2</depend>
+  <depend>slam_toolbox</depend>
+  <depend>nav2_bringup</depend>
   <exec_depend>diff_drive_controller</exec_depend>
 
   <test_depend>ament_cmake_pytest</test_depend>

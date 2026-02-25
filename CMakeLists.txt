@@ -16,9 +16,9 @@ find_package(pluginlib REQUIRED)
 find_package(hardware_interface REQUIRED)
 
 # rover hardware plugin
-add_library(mars_rover_ros2 SHARED src/rover_system.cpp)
-target_include_directories(mars_rover_ros2 PRIVATE src/include)
-ament_target_dependencies(mars_rover_ros2 rclcpp hardware_interface pluginlib)
+add_library(mars_rover SHARED src/rover_system.cpp)
+target_include_directories(mars_rover PRIVATE src/include)
+ament_target_dependencies(mars_rover rclcpp hardware_interface pluginlib)
 pluginlib_export_plugin_description_file(hardware_interface rover.xml)
 
 # camera_monitor node
@@ -31,7 +31,7 @@ target_link_libraries(camera_monitor ${OpenCV_LIBS})
 # ament_target_dependencies(control_interpreter rclcpp geometry_msgs)
 
 install(TARGETS
-  mars_rover_ros2
+  mars_rover
   camera_monitor
   # control_interpreter
   DESTINATION lib/${PROJECT_NAME}

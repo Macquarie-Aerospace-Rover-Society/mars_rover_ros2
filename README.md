@@ -26,6 +26,11 @@ colcon build --symlink-install
 ros2 launch mars_rover view_rover.launch.py 
 ```
 
+## Viewing the Control
+```bash
+ros2 control list_controllers
+ros2 control list_hardware_interfaces
+```
 
 ## Running 
 ```bash
@@ -36,3 +41,13 @@ ros2 launch mars_rover rover.launch.py
 ros2 launch mars_rover controller.launch.py #joy_con:={xbox/ps3/joy-con}
 ```
 - This runs on the base station to translate controller input into `Twist` msgs for the rover to interpret.
+
+
+
+
+
+## Launching Navigation and Slam
+
+```bash
+ros2 launch mars_rover nav.launch.py
+```

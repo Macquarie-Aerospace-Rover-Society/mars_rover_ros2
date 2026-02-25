@@ -147,7 +147,7 @@ def generate_launch_description():
         delay_rviz_after_joint_state_broadcaster_spawner,
         delay_robot_controller_spawner_after_joint_state_broadcaster_spawner,
         twist_stamper_node,
-        camera_monitor_node,
+        # camera_monitor_node,
     ]
     # launch_files = [teleop]
 
