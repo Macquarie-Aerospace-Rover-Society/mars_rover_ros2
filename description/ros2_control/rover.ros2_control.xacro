@@ -6,9 +6,12 @@
     <ros2_control name="${name}" type="system">
       <xacro:unless value="${use_mock_hardware}">
         <hardware>
+
           <plugin>mars_rover/RoverSystemHardware</plugin>
-          <param name="serial_port">/dev/ttyUSB0</param>
-          <param name="baud_rate">115200</param>
+          <xacro:property name="yaml_file" value="$(find mars_rover)/config/rover_controller_config.yaml" />
+          <xacro:property name="rover_dict" value="${xacro.load_yaml(yaml_file)}"/>
+          <param name="serial_port">${rover_dict['serial_port']}</param>
+          <param name="baud_rate">${rover_dict['baud_rate']}</param>
         </hardware>
       </xacro:unless>
       <xacro:if value="${use_mock_hardware}">

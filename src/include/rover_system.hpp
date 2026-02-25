@@ -34,6 +34,10 @@
 #include <serial/serial.h>
 namespace mars_rover
 {
+
+
+
+
 class RoverSystemHardware : public hardware_interface::SystemInterface
 {
 public:
@@ -71,6 +75,25 @@ public:
   rclcpp::Clock::SharedPtr get_clock() const { return clock_; }
 
 private:
+
+
+  bool load_hardware_parameters(const hardware_interface::HardwareInfo & info,std::map<std::string,std::string> & parameters) const
+  {
+    bool all_parameters_present = true;
+    RCLCPP_INFO(get_logger(), "Loading hardware parameters from URDF:");
+    for(const auto & param : info.hardware_parameters) {
+      if (param.first.empty() || param.second.empty()) {
+        RCLCPP_ERROR(get_logger(), "Missing: %s", param.first.c_str());
+        all_parameters_present = false;
+      } else {
+        RCLCPP_INFO(get_logger(), "%s = %s", param.first.c_str(), param.second.c_str());
+        parameters[param.first] = param.second;
+      }
+    }
+
+    return all_parameters_present;
+  }
+
   /// Log a formatted table of all joint positions, velocities and commands. I put it heere to keep the cpp file clean with just control orientated code.
     void log_robot_stats() const    
     {
@@ -103,13 +126,16 @@ private:
   std::string serial_port_;
   int baud_rate_;
   std::unique_ptr<serial::Serial> serial_connection_;
-
+  std::map<std::string,std::string> params;
 
   // Store the command for the simulated robot
   std::vector<double> hw_commands_; 
   std::vector<double> hw_positions_;
   std::vector<double> hw_velocities_;
 };
+
+
+
 
 }  // namespace mars_rover
 

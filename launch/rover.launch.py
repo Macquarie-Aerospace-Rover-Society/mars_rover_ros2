@@ -8,7 +8,7 @@ from launch.actions import DeclareLaunchArgument, RegisterEventHandler
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
 from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
@@ -62,11 +62,17 @@ def generate_launch_description():
         [FindPackageShare("mars_rover"), "description", "rover_view.rviz"]
     )
 
+    # force_colorized_logs = SetEnvironmentVariable(
+    #     name="RCUTILS_COLORIZED_OUTPUT",
+    #     value="1",
+    # )
+
     control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[robot_controllers],
-        output="both",
+        output="screen",
+        emulate_tty=True,
         remappings=[
             ("~/robot_description", "/robot_description"),
             ("/diffbot_base_controller/cmd_vel", "/cmd_vel"),
@@ -75,7 +81,8 @@ def generate_launch_description():
     robot_state_pub_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        output="both",
+        output="screen",
+        emulate_tty=True,
         parameters=[robot_description],
     )
     rviz_node = Node(
@@ -84,24 +91,28 @@ def generate_launch_description():
         name="rviz2",
         output="log",
         arguments=["-d", rviz_config_file],
+        emulate_tty=True,
         condition=IfCondition(gui),
     )
 
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
+        emulate_tty=True,
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
     robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
+        emulate_tty=True,
         arguments=["rover_base_controller", "--controller-manager", "/controller_manager"],
     )
     twist_stamper_node = Node(
         package="twist_stamper",
         executable="twist_stamper",
-        output="both",
+        output="screen",
+        emulate_tty=True,
         remappings=[
             ("/cmd_vel_out", "/rover_base_controller/cmd_vel"),
             ("/cmd_vel_in", "/cmd_vel"),
@@ -141,6 +152,7 @@ def generate_launch_description():
     )
 
     nodes = [
+        # force_colorized_logs,
         control_node,
         robot_state_pub_node,
         joint_state_broadcaster_spawner,
