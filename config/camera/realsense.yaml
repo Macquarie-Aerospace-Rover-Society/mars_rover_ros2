@@ -1,0 +1,60 @@
+# ROS 2 parameter file for forward RealSense camera
+serial_no: ""  # choose device by serial number
+usb_port_id: "2-1.3"  # choose device by USB port ID
+device_type: ""  # choose device by type
+config_file: ""  # YAML config file
+initial_reset: false  # initial reset
+accelerate_gpu_with_glsl: true  # enable GPU acceleration with GLSL
+rosbag_filename: ""  # a RealSense bagfile to run from as a device
+log_level: "info"  # debug log level [DEBUG|INFO|WARN|ERROR|FATAL]
+output: "screen"  # pipe node output [screen|log]
+enable_color: true  # enable color stream
+rgb_camera.color_profile: "640,480,15"  # color stream profile
+rgb_camera.color_format: "RGB8"  # color stream format
+rgb_camera.enable_auto_exposure: true  # enable/disable auto exposure for color image
+enable_depth: true  # enable depth stream
+enable_infra: false  # enable infra0 stream
+enable_infra1: false  # enable infra1 stream
+enable_infra2: false  # enable infra2 stream
+depth_module.depth_profile: "640,480,30"  # depth stream profile
+depth_module.depth_format: "Z16"  # depth stream format
+depth_module.infra_profile: "640,480,15"  # infra streams (0/1/2) profile
+depth_module.infra_format: "RGB8"  # infra0 stream format
+depth_module.infra1_format: "Y8"  # infra1 stream format
+depth_module.infra2_format: "Y8"  # infra2 stream format
+depth_module.exposure: 8500  # depth module manual exposure value
+depth_module.gain: 16  # depth module manual gain value
+depth_module.hdr_enabled: false  # depth module HDR enablement flag
+depth_module.enable_auto_exposure: true  # enable/disable auto exposure for depth image
+depth_module.exposure.1: 7500  # depth module first exposure value
+depth_module.gain.1: 16  # depth module first gain value
+depth_module.exposure.2: 1  # depth module second exposure value
+depth_module.gain.2: 16  # depth module second gain value
+enable_sync: true  # enable sync mode
+enable_rgbd: false  # enable RGBD topic
+enable_gyro: false  # enable gyro stream
+enable_accel: false  # enable accel stream
+gyro_fps: 0  # gyro FPS
+accel_fps: 0  # accel FPS
+unite_imu_method: 0  # [0-None, 1-copy, 2-linear_interpolation]
+clip_distance: -2.0  # clip distance
+angular_velocity_cov: 0.01  # angular velocity covariance
+linear_accel_cov: 0.01  # linear acceleration covariance
+diagnostics_period: 0.0  # rate of publishing diagnostics (0=Disabled)
+publish_tf: true  # enable/disable publishing static & dynamic TF
+tf_publish_rate: 0.0  # rate in Hz for publishing dynamic TF
+pointcloud__neon_.enable: true  # enable pointcloud
+pointcloud__neon_.stream_filter: 0  # texture stream for pointcloud
+pointcloud__neon_.stream_index_filter: 0  # texture stream index for pointcloud
+pointcloud__neon_.ordered_pc: false  # ordered pointcloud
+pointcloud__neon_.allow_no_texture_points: true  # allow points with no texture
+align_depth.enable: false  # enable align depth filter
+colorizer.enable: false  # enable colorizer filter
+decimation_filter.enable: true  # enable decimation filter
+spatial_filter.enable: false  # enable spatial filter
+temporal_filter.enable: true  # enable temporal filter
+disparity_filter.enable: false  # enable disparity filter
+hole_filling_filter.enable: false  # enable hole filling filter
+hdr_merge.enable: false  # HDR merge filter enablement flag
+wait_for_device_timeout: -1.0  # timeout for waiting for device to connect (seconds)
+reconnect_timeout: 6.0  # timeout (seconds) between consecutive reconnection attempts

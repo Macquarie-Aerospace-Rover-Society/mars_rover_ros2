@@ -21,6 +21,8 @@
   <depend>navigation2</depend>
   <depend>slam_toolbox</depend>
   <depend>nav2_bringup</depend>
+  <depend>realsense2_camera</depend>
+  <depend>depth_image_to_laserscan</depend>
   <exec_depend>diff_drive_controller</exec_depend>
 
   <test_depend>ament_cmake_pytest</test_depend>
