@@ -40,7 +40,7 @@ experimental-features = nix-command flakes
 ## Viewing the Rover
 
 ```bash
-ros2 launch mars_rover view_rover.py
+ros2 launch mars_rover view_rover.launch.py
 ```
 
 ## Running
