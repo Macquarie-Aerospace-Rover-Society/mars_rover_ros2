@@ -30,12 +30,16 @@ nix develop
 colcon build --symlink-install
 source install/setup.bash
 ```
+> [!NOTE]
+> To enable flakes if not already enabled, add the following to `~/.config/nix/nix.conf`:
+> 
+>```
+> experimental-features = nix-command flakes
+>```
+> 
 
-To enable flakes if not already enabled, add the following to `~/.config/nix/nix.conf`:
 
-```
-experimental-features = nix-command flakes
-```
+
 
 ## Viewing the Rover
 
