@@ -42,8 +42,11 @@ hardware_interface::CallbackReturn RoverSystemHardware::on_init(
     rclcpp::get_logger("controller_manager.resource_manager.hardware_component.system.RoverSystem"));
   clock_ = std::make_shared<rclcpp::Clock>(rclcpp::Clock());
 
+  serial_port_ = info_.hardware_parameters["serial_port"];
+  baud_rate_ = std::stoi(info_.hardware_parameters["baud_rate"]);
+  serial_connection_ = std::make_unique<serial::Serial>(serial_port_, baud_rate_, serial::Timeout::simpleTimeout(1000));
 
-
+    RCLCPP_INFO(get_logger(),"control system connecting to serial port %s with baud rate %d", serial_port_.c_str(), baud_rate_);
   hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
@@ -111,7 +114,23 @@ hardware_interface::CallbackReturn RoverSystemHardware::on_deactivate(const rclc
 
 hardware_interface::return_type RoverSystemHardware::read(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
-    // TODO
+  auto msg = serial_connection_->read(hw_positions_.size() * sizeof(double) * 2); // read positions and velocities as bytes, you can change this to match the expected format of your robot
+  hw_positions_.clear();
+  hw_velocities_.clear();
+  for(int i=0; i<msg.size(); i+=2) {
+    double pos = static_cast<double>(msg[i]);
+    double vel = static_cast<double>(msg[i + 1]);
+    hw_positions_.push_back(pos);
+    hw_velocities_.push_back(vel);
+  }
+
+  if(hw_positions_.size() != info_.joints.size() || hw_velocities_.size() != info_.joints.size()) {
+    RCLCPP_ERROR(get_logger(), "Expected %zu joint states, but got %zu positions and %zu velocities", info_.joints.size(), hw_positions_.size(), hw_velocities_.size());
+    return hardware_interface::return_type::ERROR;
+  }
+
+  
+  // TODO set hw_positions_ and hw_velocities_ from the robot
   return hardware_interface::return_type::OK;
 }
 
@@ -119,8 +138,16 @@ hardware_interface::return_type RoverSystemHardware::read(const rclcpp::Time & /
 
 hardware_interface::return_type RoverSystemHardware::write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
-    // TODO
-    return hardware_interface::return_type::OK;
+  if (hw_commands_.size() < 4) {
+    RCLCPP_ERROR(get_logger(), "Expected 4 commands for the rover, but got %zu", hw_commands_.size());
+    return hardware_interface::return_type::ERROR;
+  }
+  // currently just casting the commands to uint8_t and sending them as bytes, but you can change this to match the expected format of your robot
+  std::vector<uint8_t> msg = std::vector<uint8_t>{static_cast<uint8_t>(hw_commands_[0]), static_cast<uint8_t>(hw_commands_[1]), static_cast<uint8_t>(hw_commands_[2]), static_cast<uint8_t>(hw_commands_[3])};
+  serial_connection_->write(msg);
+
+  // TODO set the robot's velocity from hw_commands_
+  return hardware_interface::return_type::OK;
 }
 
 }  // namespace mars_rover

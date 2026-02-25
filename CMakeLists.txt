@@ -5,6 +5,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+# Enable FetchContent for external dependencies
+include(FetchContent)
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -15,10 +18,19 @@ find_package(cv_bridge REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(hardware_interface REQUIRED)
 
+# Fetch and build serial library
+FetchContent_Declare(
+  serial
+  GIT_REPOSITORY https://github.com/RoverRobotics-forks/serial-ros2
+  GIT_TAG master
+)
+FetchContent_MakeAvailable(serial)
+
 # rover hardware plugin
 add_library(mars_rover SHARED src/rover_system.cpp)
-target_include_directories(mars_rover PRIVATE src/include)
+target_include_directories(mars_rover PRIVATE src/include ${serial_SOURCE_DIR}/include)
 ament_target_dependencies(mars_rover rclcpp hardware_interface pluginlib)
+target_link_libraries(mars_rover serial)
 pluginlib_export_plugin_description_file(hardware_interface rover.xml)
 
 # camera_monitor node

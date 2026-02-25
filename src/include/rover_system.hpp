@@ -31,6 +31,7 @@
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include <serial/serial.h>
 namespace mars_rover
 {
 class RoverSystemHardware : public hardware_interface::SystemInterface
@@ -98,8 +99,14 @@ private:
   std::shared_ptr<rclcpp::Logger> logger_;
   rclcpp::Clock::SharedPtr clock_;
 
+  // Hardware parameters loaded from URDF
+  std::string serial_port_;
+  int baud_rate_;
+  std::unique_ptr<serial::Serial> serial_connection_;
+
+
   // Store the command for the simulated robot
-  std::vector<double> hw_commands_;
+  std::vector<double> hw_commands_; 
   std::vector<double> hw_positions_;
   std::vector<double> hw_velocities_;
 };
